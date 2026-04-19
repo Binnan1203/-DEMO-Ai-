@@ -1,113 +1,270 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StockPilot AI - 股票趋势助手 Demo</title>
+  <title>YomiStart - 日语发音学习 Demo</title>
   <style>
-    :root { --bg:#0b1020; --card:#151c33; --text:#e9eefc; --muted:#9aa6c3; --accent:#6ea8fe; --green:#2ecc71; --yellow:#f5c542; --red:#ff6b6b; --border:#26304f; }
+    :root {
+      --bg: #f7f8fc;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #4f46e5;
+      --primary-2: #6366f1;
+      --line: #e5e7eb;
+      --good: #059669;
+    }
     * { box-sizing: border-box; }
-    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif; background:linear-gradient(180deg,#0b1020 0%,#10182e 100%); color:var(--text); min-height:100vh; }
-    .wrap { max-width:1100px; margin:0 auto; padding:32px 20px 60px; }
-    .hero { display:flex; justify-content:space-between; align-items:end; gap:24px; margin-bottom:24px; }
-    h1 { font-size:40px; margin:0 0 10px; }
-    .sub { color:var(--muted); line-height:1.6; max-width:700px; }
-    .badge { display:inline-block; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--accent); font-size:12px; margin-bottom:10px; background:rgba(110,168,254,.08); }
-    .grid { display:grid; grid-template-columns:340px 1fr; gap:20px; }
-    .card { background:rgba(21,28,51,.9); border:1px solid var(--border); border-radius:20px; padding:20px; box-shadow:0 8px 24px rgba(0,0,0,.18); }
-    .label { display:block; margin-bottom:8px; color:var(--muted); font-size:14px; }
-    input, select, button { width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--border); background:#0f1630; color:var(--text); font-size:15px; }
-    button { background:linear-gradient(90deg,#4f8cff,#78b0ff); color:white; font-weight:600; cursor:pointer; border:none; margin-top:14px; }
-    .tips { font-size:13px; color:var(--muted); line-height:1.7; margin-top:14px; }
-    .mini-list { margin:12px 0 0; padding-left:18px; color:var(--muted); }
-    .mini-list li { margin:4px 0; }
-    .topline { display:flex; justify-content:space-between; align-items:start; gap:16px; }
-    .ticker { font-size:26px; font-weight:700; }
-    .meta { color:var(--muted); margin-top:6px; }
-    .pill { padding:8px 12px; border-radius:999px; font-size:13px; font-weight:600; border:1px solid transparent; white-space:nowrap; }
-    .up { color:#b7f5cf; background:rgba(46,204,113,.12); border-color:rgba(46,204,113,.28); }
-    .flat { color:#fff0bf; background:rgba(245,197,66,.12); border-color:rgba(245,197,66,.28); }
-    .down { color:#ffc0c0; background:rgba(255,107,107,.12); border-color:rgba(255,107,107,.28); }
-    .stats { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin:18px 0; }
-    .stat { background:#10172d; border:1px solid var(--border); padding:14px; border-radius:14px; }
-    .stat .k { color:var(--muted); font-size:12px; }
-    .stat .v { font-size:24px; margin-top:6px; font-weight:700; }
-    canvas { width:100% !important; max-height:280px; background:#0e1530; border-radius:16px; border:1px solid var(--border); padding:8px; }
-    .reason-list { margin:18px 0 0; padding:0; list-style:none; display:grid; gap:10px; }
-    .reason-list li { background:#10172d; border:1px solid var(--border); padding:14px; border-radius:14px; }
-    .reason-list strong { display:block; margin-bottom:6px; }
-    .foot { margin-top:18px; color:var(--muted); font-size:13px; line-height:1.7; }
-    @media (max-width:880px) { .grid { grid-template-columns:1fr; } .hero { flex-direction:column; align-items:start; } .stats { grid-template-columns:1fr; } }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 28%);
+      color: var(--text);
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 28px 18px 40px; }
+    .hero {
+      display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; align-items: stretch; margin-bottom: 18px;
+    }
+    .card {
+      background: var(--card); border: 1px solid rgba(229,231,235,.85); border-radius: 20px; padding: 20px;
+      box-shadow: 0 10px 30px rgba(79,70,229,.08);
+    }
+    h1 { margin: 0 0 10px; font-size: 32px; }
+    h2 { margin: 0 0 14px; font-size: 20px; }
+    h3 { margin: 0 0 8px; font-size: 16px; }
+    p { margin: 0; color: var(--muted); line-height: 1.7; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .chip {
+      border: 1px solid #c7d2fe; color: var(--primary); background: #eef2ff; padding: 8px 12px;
+      border-radius: 999px; font-size: 13px; font-weight: 600;
+    }
+    .cta-row { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+    button, .btn {
+      border: 0; border-radius: 12px; padding: 12px 16px; cursor: pointer; font-size: 14px; font-weight: 700;
+      transition: all .18s ease;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-2); transform: translateY(-1px); }
+    .btn-light { background: #eef2ff; color: var(--primary); border: 1px solid #c7d2fe; }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .stat {
+      background: #fafaff; border: 1px solid #ebeafe; border-radius: 16px; padding: 14px;
+    }
+    .stat .num { font-size: 22px; font-weight: 800; color: var(--primary); }
+    .section { margin-top: 18px; }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .pill {
+      padding: 10px 14px; border-radius: 999px; border: 1px solid var(--line); background: white;
+      color: var(--text); font-weight: 700; cursor: pointer;
+    }
+    .pill.active { background: #eef2ff; color: var(--primary); border-color: #c7d2fe; }
+    .grid {
+      display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px;
+    }
+    .kana {
+      border: 1px solid var(--line); border-radius: 16px; padding: 14px 10px; background: white; text-align: center; cursor: pointer;
+      transition: all .18s ease;
+    }
+    .kana:hover { border-color: #c7d2fe; box-shadow: 0 8px 18px rgba(79,70,229,.08); transform: translateY(-1px); }
+    .kana .jp { font-size: 30px; font-weight: 800; margin-bottom: 6px; }
+    .kana .roma { font-size: 13px; color: var(--muted); }
+    .lesson {
+      display: grid; grid-template-columns: 1.2fr .8fr; gap: 18px;
+    }
+    .practice-box {
+      border: 1px dashed #c7d2fe; background: #fafaff; border-radius: 18px; padding: 18px; min-height: 208px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .big { font-size: 64px; font-weight: 900; line-height: 1; margin: 8px 0; }
+    .small { color: var(--muted); font-size: 15px; }
+    .example {
+      margin-top: 10px; background: white; border: 1px solid var(--line); border-radius: 14px; padding: 12px;
+      line-height: 1.7;
+    }
+    .tip-list { display: grid; gap: 10px; }
+    .tip { border: 1px solid var(--line); border-radius: 14px; padding: 12px; background: white; }
+    .footer-note { margin-top: 14px; font-size: 12px; color: var(--muted); }
+    .ok { color: var(--good); font-weight: 800; }
+    @media (max-width: 900px) {
+      .hero, .lesson { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    @media (max-width: 620px) {
+      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      h1 { font-size: 26px; }
+      .big { font-size: 52px; }
+      .stat-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="hero">
-      <div>
-        <div class="badge">AI工具参与完成 · 产品Demo</div>
-        <h1>StockPilot AI</h1>
-        <div class="sub">一个面向普通用户的股票趋势辅助工具 Demo。输入股票代码后，页面会基于示例行情数据与规则模型，输出短期趋势判断、上涨概率、关键原因和可视化走势。重点展示“趋势 + 原因”的产品思路。</div>
+    <section class="hero">
+      <div class="card">
+        <h1>YomiStart</h1>
+        <p>一个帮助初学者快速掌握日语发音的轻量化 Demo。核心思路是把「假名识别、标准发音、开口跟读」放在同一页面，降低入门阶段的认知负担。</p>
+        <div class="chips">
+          <span class="chip">五十音学习</span>
+          <span class="chip">标准语音播放</span>
+          <span class="chip">发音技巧提示</span>
+          <span class="chip">场景示例词</span>
+        </div>
+        <div class="cta-row">
+          <button class="btn-primary" onclick="scrollToSection('kanaSection')">开始学习</button>
+          <button class="btn-light" onclick="playPhrase('あいうえお')">试听日语发音</button>
+        </div>
       </div>
-    </div>
+      <div class="card">
+        <h2>学习看板</h2>
+        <div class="stat-grid">
+          <div class="stat"><div class="num" id="learnedCount">0</div><div class="small">已试听假名</div></div>
+          <div class="stat"><div class="num">46</div><div class="small">基础假名</div></div>
+          <div class="stat"><div class="num">3</div><div class="small">练习模式</div></div>
+        </div>
+        <div class="footer-note">建议学习顺序：<span class="ok">元音 → K/S/T 系 → 例词跟读</span></div>
+      </div>
+    </section>
 
-    <div class="grid">
+    <section class="card section" id="kanaSection">
+      <h2>1. 五十音发音练习</h2>
+      <div class="toolbar" id="modeToolbar">
+        <button class="pill active" data-mode="hiragana">平假名</button>
+        <button class="pill" data-mode="katakana">片假名</button>
+        <button class="pill" data-mode="vowels">初学推荐：先学元音</button>
+      </div>
+      <div class="grid" id="kanaGrid"></div>
+      <div class="footer-note">点击任意假名即可听发音。若浏览器支持语音合成，将使用日语语音；否则显示学习内容供静态演示。</div>
+    </section>
+
+    <section class="section lesson">
       <div class="card">
-        <label class="label" for="ticker">输入股票代码</label>
-        <input id="ticker" placeholder="例如 AAPL / TSLA / 0700.HK" value="AAPL" />
-        <label class="label" for="market" style="margin-top:14px;">市场</label>
-        <select id="market"><option value="us">美股</option><option value="hk">港股</option><option value="cn">A股</option></select>
-        <button id="runBtn">生成趋势判断</button>
-        <div class="tips">
-          <strong>Demo说明</strong>
-          <ul class="mini-list">
-            <li>支持示例股票代码：AAPL、TSLA、NVDA、0700.HK、BABA、600519.SS</li>
-            <li>通过简化模型展示产品交互，不构成投资建议</li>
-            <li>适合作为产品经理方向的AI产品概念验证 Demo</li>
-          </ul>
+        <h2>2. 单卡沉浸学习</h2>
+        <div class="practice-box">
+          <div>
+            <div class="small">当前学习卡片</div>
+            <div class="big" id="focusKana">あ</div>
+            <div class="small" id="focusRoma">a</div>
+            <div class="example" id="focusExample">
+              例词：<strong>あさ</strong>（asa，早晨）<br>
+              发音提示：嘴巴自然张开，短促发出“a”。
+            </div>
+          </div>
+          <div class="cta-row">
+            <button class="btn-primary" onclick="playCurrent()">播放当前发音</button>
+            <button class="btn-light" onclick="nextCard()">换一张</button>
+          </div>
         </div>
       </div>
+
       <div class="card">
-        <div class="topline">
-          <div><div class="ticker" id="tickerName">AAPL</div><div class="meta" id="tickerMeta">Apple Inc. · 近7日示例走势分析</div></div>
-          <div id="trendPill" class="pill up">上涨趋势</div>
+        <h2>3. 初学者发音提示</h2>
+        <div class="tip-list">
+          <div class="tip"><h3>① 先学元音</h3><p>先掌握 a / i / u / e / o，再学习辅音行，能明显降低记忆压力。</p></div>
+          <div class="tip"><h3>② 一次只练一组</h3><p>建议按「あ行 → か行 → さ行」推进，而不是一次背完整张表。</p></div>
+          <div class="tip"><h3>③ 发音要短促</h3><p>日语基础假名通常比中文更轻、更短，避免拖音过长。</p></div>
         </div>
-        <div class="stats">
-          <div class="stat"><div class="k">上涨概率</div><div class="v" id="probability">68%</div></div>
-          <div class="stat"><div class="k">近7日涨跌幅</div><div class="v" id="change">+3.2%</div></div>
-          <div class="stat"><div class="k">短期判断</div><div class="v" id="shortJudge">偏强</div></div>
-        </div>
-        <canvas id="chart" width="700" height="280"></canvas>
-        <ul class="reason-list" id="reasonList"></ul>
-        <div class="foot">风险提示：本页面为演示版产品，仅展示一个“AI辅助趋势解读”产品思路。页面结果基于示例数据和简化规则模型生成，不构成任何投资建议。</div>
       </div>
-    </div>
+    </section>
   </div>
+
   <script>
-    const database = {
-      'AAPL': {name:'Apple Inc.', prices:[187,188,189,191,190,193,193.5], trend:'上涨趋势', pill:'up', probability:68, judge:'偏强', reasons:[['均线结构向上','近7日价格缓慢抬升，短期均线高于中期均线，趋势偏强。'],['成交量温和放大','上涨过程中没有明显缩量，说明资金承接较稳定。'],['市场情绪偏积极','围绕新品与财报预期的讨论度较高，短期情绪对走势有支撑。']]},
-      'TSLA': {name:'Tesla', prices:[167,171,176,173,178,181,179], trend:'震荡偏强', pill:'flat', probability:63, judge:'震荡偏强', reasons:[['波动较大但重心抬升','价格多次回踩后继续上冲，说明短线分歧中仍有买盘。'],['高波动适合谨慎观察','虽然趋势偏强，但日内振幅大，短期更适合分批跟踪。'],['话题热度持续','交付预期和行业消息提升关注度，带来额外交易活跃。']]},
-      'NVDA': {name:'NVIDIA', prices:[873,881,889,900,912,918,926], trend:'上涨趋势', pill:'up', probability:72, judge:'偏强', reasons:[['趋势连续性较强','近7日几乎保持单边上行，市场对AI主线预期较强。'],['板块热度带动','半导体与AI算力概念维持高关注，对股价形成支撑。'],['回调幅度有限','短期回撤不深，说明筹码相对稳定。']]},
-      '0700.HK': {name:'腾讯控股', prices:[372,374,373,377,380,381,379], trend:'震荡偏强', pill:'flat', probability:61, judge:'震荡偏强', reasons:[['回购提供支撑','持续回购对市场信心形成一定支撑。'],['短期重心略上移','虽然波动不大，但价格中枢较前期有所抬升。'],['板块情绪修复中','互联网平台整体预期改善，有助于估值修复。']]},
-      'BABA': {name:'阿里巴巴', prices:[71,70.5,69.8,69.2,68.6,68.9,68.1], trend:'回调风险', pill:'down', probability:39, judge:'偏弱', reasons:[['价格重心下移','近7日整体缓慢走弱，反弹力度有限。'],['量能不足','下跌过程中缺乏有效承接，说明买盘意愿偏弱。'],['情绪仍偏谨慎','市场更关注基本面修复节奏，短期弹性不足。']]},
-      '600519.SS': {name:'贵州茅台', prices:[1680,1695,1702,1698,1710,1718,1725], trend:'上涨趋势', pill:'up', probability:66, judge:'稳步抬升', reasons:[['机构偏好稳定','龙头属性较强，市场更倾向于防御型配置。'],['走势较平滑','没有明显大幅回撤，短期趋势更偏稳健。'],['消费复苏预期支撑','高端消费修复逻辑仍在，情绪层面偏正向。']]} };
-    const colors = { up:'#2ecc71', flat:'#f5c542', down:'#ff6b6b' };
-    function getData(code){ return database[code.toUpperCase()] || database['AAPL']; }
-    function calcChange(prices){ const first=prices[0], last=prices[prices.length-1]; const pct=((last-first)/first)*100; return (pct>=0?'+':'')+pct.toFixed(1)+'%'; }
-    function render(code){
-      const data = getData(code);
-      document.getElementById('tickerName').textContent = code.toUpperCase();
-      document.getElementById('tickerMeta').textContent = `${data.name} · 近7日示例走势分析`;
-      const pill = document.getElementById('trendPill'); pill.textContent = data.trend; pill.className = `pill ${data.pill}`;
-      document.getElementById('probability').textContent = `${data.probability}%`;
-      document.getElementById('change').textContent = calcChange(data.prices);
-      document.getElementById('shortJudge').textContent = data.judge;
-      const reasonList = document.getElementById('reasonList'); reasonList.innerHTML='';
-      data.reasons.forEach(([title,desc])=>{ const li=document.createElement('li'); li.innerHTML=`<strong>${title}</strong><span>${desc}</span>`; reasonList.appendChild(li);});
-      drawChart(data.prices, colors[data.pill]);
+    const hira = [
+      ['あ','a','あさ / 早晨'],['い','i','いぬ / 小狗'],['う','u','うみ / 大海'],['え','e','えき / 车站'],['お','o','おちゃ / 茶'],
+      ['か','ka','かさ / 雨伞'],['き','ki','きた / 北边'],['く','ku','くつ / 鞋子'],['け','ke','けむり / 烟'],['こ','ko','こえ / 声音'],
+      ['さ','sa','さけ / 三文鱼'],['し','shi','しま / 岛'],['す','su','すし / 寿司'],['せ','se','せかい / 世界'],['そ','so','そら / 天空'],
+      ['た','ta','たまご / 鸡蛋'],['ち','chi','ちず / 地图'],['つ','tsu','つき / 月亮'],['て','te','て / 手'],['と','to','とけい / 钟表'],
+      ['な','na','なつ / 夏天'],['に','ni','にく / 肉'],['ぬ','nu','ぬの / 布'],['ね','ne','ねこ / 猫'],['の','no','のみもの / 饮料'],
+      ['は','ha','はな / 花'],['ひ','hi','ひこうき / 飞机'],['ふ','fu','ふね / 船'],['へ','he','へや / 房间'],['ほ','ho','ほし / 星星'],
+      ['ま','ma','まど / 窗户'],['み','mi','みず / 水'],['む','mu','むし / 虫'],['め','me','め / 眼睛'],['も','mo','もり / 森林'],
+      ['や','ya','やま / 山'],['ゆ','yu','ゆき / 雪'],['よ','yo','よる / 夜晚'],
+      ['ら','ra','らいおん / 狮子'],['り','ri','りんご / 苹果'],['る','ru','るす / 不在'],['れ','re','れきし / 历史'],['ろ','ro','ろうそく / 蜡烛'],
+      ['わ','wa','わに / 鳄鱼'],['を','wo','を（助词）'],['ん','n','ぱん / 面包']
+    ];
+    const kata = [
+      ['ア','a','アイス / 冰淇淋'],['イ','i','イス / 椅子'],['ウ','u','ウサギ / 兔子'],['エ','e','エレベーター / 电梯'],['オ','o','オレンジ / 橙子'],
+      ['カ','ka','カメラ / 相机'],['キ','ki','キウイ / 猕猴桃'],['ク','ku','クラス / 班级'],['ケ','ke','ケーキ / 蛋糕'],['コ','ko','コーヒー / 咖啡'],
+      ['サ','sa','サラダ / 沙拉'],['シ','shi','シート / 座位'],['ス','su','スポーツ / 运动'],['セ','se','セーター / 毛衣'],['ソ','so','ソファ / 沙发'],
+      ['タ','ta','タクシー / 出租车'],['チ','chi','チーズ / 芝士'],['ツ','tsu','ツアー / 旅行团'],['テ','te','テスト / 测试'],['ト','to','トマト / 番茄'],
+      ['ナ','na','ナイフ / 刀'],['ニ','ni','ニュース / 新闻'],['ヌ','nu','ヌードル / 面'],['ネ','ne','ネクタイ / 领带'],['ノ','no','ノート / 笔记本'],
+      ['ハ','ha','ハンバーガー / 汉堡'],['ヒ','hi','ヒーター / 加热器'],['フ','fu','フルーツ / 水果'],['ヘ','he','ヘア / 头发'],['ホ','ho','ホテル / 酒店'],
+      ['マ','ma','マスク / 口罩'],['ミ','mi','ミルク / 牛奶'],['ム','mu','ムービー / 电影'],['メ','me','メモ / 备忘录'],['モ','mo','モデル / 模型'],
+      ['ヤ','ya','ヤクルト / 乳酸菌饮料'],['ユ','yu','ユニフォーム / 制服'],['ヨ','yo','ヨーグルト / 酸奶'],
+      ['ラ','ra','ラーメン / 拉面'],['リ','ri','リモコン / 遥控器'],['ル','ru','ルール / 规则'],['レ','re','レストラン / 餐厅'],['ロ','ro','ロボット / 机器人'],
+      ['ワ','wa','ワイン / 葡萄酒'],['ヲ','wo','ヲ（极少用）'],['ン','n','パン / 面包']
+    ];
+
+    const vowelsOnly = hira.slice(0,5);
+    let currentMode = 'hiragana';
+    let learned = new Set();
+    let currentList = hira;
+    let currentIndex = 0;
+
+    function scrollToSection(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+
+    function renderGrid(list) {
+      currentList = list;
+      const grid = document.getElementById('kanaGrid');
+      grid.innerHTML = '';
+      list.forEach((item, idx) => {
+        const [jp, roma, example] = item;
+        const div = document.createElement('div');
+        div.className = 'kana';
+        div.innerHTML = `<div class="jp">${jp}</div><div class="roma">${roma}</div>`;
+        div.onclick = () => { currentIndex = idx; updateFocus(item); playKana(jp, roma); };
+        grid.appendChild(div);
+      });
+      updateFocus(list[0]);
     }
-    function drawChart(prices, color){ const canvas=document.getElementById('chart'); const ctx=canvas.getContext('2d'); const w=canvas.width,h=canvas.height; ctx.clearRect(0,0,w,h); ctx.strokeStyle='#203056'; ctx.lineWidth=1; for(let i=1;i<=4;i++){const y=(h/5)*i; ctx.beginPath(); ctx.moveTo(40,y); ctx.lineTo(w-20,y); ctx.stroke(); } const max=Math.max(...prices), min=Math.min(...prices); const pad=(max-min)*0.2||1; const top=max+pad, bottom=min-pad; const stepX=(w-80)/(prices.length-1); ctx.beginPath(); prices.forEach((p,i)=>{const x=40+stepX*i; const y=h-30-((p-bottom)/(top-bottom))*(h-60); if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);}); ctx.strokeStyle=color; ctx.lineWidth=3; ctx.stroke(); prices.forEach((p,i)=>{const x=40+stepX*i; const y=h-30-((p-bottom)/(top-bottom))*(h-60); ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fillStyle=color; ctx.fill();}); ctx.fillStyle='#9aa6c3'; ctx.font='12px sans-serif'; ['D1','D2','D3','D4','D5','D6','D7'].forEach((d,i)=>{ const x=40+stepX*i-8; ctx.fillText(d,x,h-8); }); }
-    document.getElementById('runBtn').addEventListener('click',()=>render(document.getElementById('ticker').value||'AAPL'));
-    render('AAPL');
+
+    function updateFocus(item){
+      const [jp, roma, example] = item;
+      document.getElementById('focusKana').textContent = jp;
+      document.getElementById('focusRoma').textContent = roma;
+      document.getElementById('focusExample').innerHTML = `例词：<strong>${example}</strong><br>发音提示：先短促读出 <strong>${roma}</strong>，不要拖音。`;
+    }
+
+    function playPhrase(text){
+      if (!('speechSynthesis' in window)) {
+        alert('当前浏览器不支持语音合成，但该 Demo 仍可用于展示学习流程。');
+        return;
+      }
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'ja-JP';
+      utter.rate = 0.8;
+      utter.pitch = 1.0;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utter);
+    }
+
+    function playKana(jp, roma){
+      learned.add(jp);
+      document.getElementById('learnedCount').textContent = learned.size;
+      playPhrase(jp);
+    }
+
+    function playCurrent(){
+      const [jp] = currentList[currentIndex];
+      playKana(jp);
+    }
+
+    function nextCard(){
+      currentIndex = (currentIndex + 1) % currentList.length;
+      updateFocus(currentList[currentIndex]);
+    }
+
+    document.querySelectorAll('#modeToolbar .pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#modeToolbar .pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentMode = btn.dataset.mode;
+        if (currentMode === 'hiragana') renderGrid(hira);
+        if (currentMode === 'katakana') renderGrid(kata);
+        if (currentMode === 'vowels') renderGrid(vowelsOnly);
+      })
+    });
+
+    renderGrid(hira);
   </script>
 </body>
 </html>
